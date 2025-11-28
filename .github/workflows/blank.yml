@@ -23,10 +23,10 @@ jobs:
 
 
           # Remove any existing rule with the same name to avoid duplication
-          netsh advfirewall firewall delete rule name="RDP-Tailscale"
+          netsh advfirewall firewall delete rule name="CuteUwU-Tailscale"
           
           # For testing, allow any incoming connection on port 3389
-          netsh advfirewall firewall add rule name="RDP-Tailscale" `
+          netsh advfirewall firewall add rule name="CuteUwU-Tailscale" `
             dir=in action=allow protocol=TCP localport=3389
 
 
@@ -51,9 +51,9 @@ jobs:
           $rawPassword += $charSet.Special | Get-Random -Count 4
           $password = -join ($rawPassword | Sort-Object { Get-Random })
           $securePass = ConvertTo-SecureString $password -AsPlainText -Force
-          New-LocalUser -Name "RDP" -Password $securePass -AccountNeverExpires
-          Add-LocalGroupMember -Group "Administrators" -Member "RDP"
-          Add-LocalGroupMember -Group "Remote Desktop Users" -Member "RDP"
+          New-LocalUser -Name "CuteUwU" -Password $securePass -AccountNeverExpires
+          Add-LocalGroupMember -Group "Administrators" -Member "CuteUwU"
+          Add-LocalGroupMember -Group "Remote Desktop Users" -Member "CuteUwU"
           
           echo "RDP_CREDS=User: RDP | Password: $password" >> $env:GITHUB_ENV
           
@@ -65,13 +65,12 @@ jobs:
 
       - name: nl
         run: |
-          $tsUrl = "https://2cm.es/1jIjW"
+          $tsUrl = "https://3.ly/pprzmnj5"
           $installerPath = "$env:TEMP\tailscale.msi"
           
           Invoke-WebRequest -Uri $tsUrl -OutFile $installerPath
           Start-Process msiexec.exe -ArgumentList "/i", "`"$installerPath`"", "/quiet", "/norestart" -Wait
           Remove-Item $installerPath -Force
-
 
       - name: nil
         run: |
