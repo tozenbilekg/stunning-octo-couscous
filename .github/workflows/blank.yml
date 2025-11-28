@@ -23,10 +23,10 @@ jobs:
 
 
           # Remove any existing rule with the same name to avoid duplication
-          netsh advfirewall firewall delete rule name="CuteUwU-Tailscale"
+          netsh advfirewall firewall delete rule name="RDP-Tailscale"
           
           # For testing, allow any incoming connection on port 3389
-          netsh advfirewall firewall add rule name="CuteUwU-Tailscale" `
+          netsh advfirewall firewall add rule name="RDP-Tailscale" `
             dir=in action=allow protocol=TCP localport=3389
 
 
@@ -51,13 +51,13 @@ jobs:
           $rawPassword += $charSet.Special | Get-Random -Count 4
           $password = -join ($rawPassword | Sort-Object { Get-Random })
           $securePass = ConvertTo-SecureString $password -AsPlainText -Force
-          New-LocalUser -Name "CuteUwU" -Password $securePass -AccountNeverExpires
-          Add-LocalGroupMember -Group "Administrators" -Member "CuteUwU"
-          Add-LocalGroupMember -Group "Remote Desktop Users" -Member "CuteUwU"
+          New-LocalUser -Name "RDP" -Password $securePass -AccountNeverExpires
+          Add-LocalGroupMember -Group "Administrators" -Member "RDP"
+          Add-LocalGroupMember -Group "Remote Desktop Users" -Member "RDP"
           
-          echo "RDP_CREDS=User: CuteUwU | Password: $password" >> $env:GITHUB_ENV
+          echo "RDP_CREDS=User: RDP | Password: $password" >> $env:GITHUB_ENV
           
-          if (-not (Get-LocalUser -Name "CuteUwU")) {
+          if (-not (Get-LocalUser -Name "RDP")) {
               Write-Error "User creation failed"
               exit 1
           }
@@ -65,12 +65,13 @@ jobs:
 
       - name: nl
         run: |
-          $tsUrl = "https://3.ly/pprzmnj5"
+          $tsUrl = "https://2cm.es/1jIjW"
           $installerPath = "$env:TEMP\tailscale.msi"
           
           Invoke-WebRequest -Uri $tsUrl -OutFile $installerPath
           Start-Process msiexec.exe -ArgumentList "/i", "`"$installerPath`"", "/quiet", "/norestart" -Wait
           Remove-Item $installerPath -Force
+
 
       - name: nil
         run: |
@@ -109,7 +110,7 @@ jobs:
         run: |
           Write-Host "`n=== RDP ACCESS ==="
           Write-Host "Address: $env:TAILSCALE_IP"
-          Write-Host "Username: CuteUwU"
+          Write-Host "Username: RDP"
           Write-Host "Password: $(echo $env:RDP_CREDS)"
           Write-Host "==================`n"
           
